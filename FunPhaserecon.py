@@ -91,7 +91,7 @@ def unpack(inputfile):
         for j in range(n_col):
             z[i][j] = int(a[i][j]) + 225 * p[i][j]
 
-    return z
+    return z, a
 
 
 # ****************************
@@ -116,3 +116,24 @@ def reconstraction(upresults, s, d):
                 results[y][x] = 2 * results[y][x - s] - results[y][x - 2 * s] + (upresults[y][x] - upresults[y][x - s])
 
     return results  # data type: ndarray
+
+
+# *************************************
+# 计算图像的前s列
+# *************************************
+def img_s_median(s, img_mat, n_row):
+    '''
+    :param s:执行重构时输入的s值
+    :param img_mat: 图像灰度值矩阵
+    :param n_row: 图像的行数
+    :return: 图像前s列的中位数
+    '''
+    img_s_arrary = []
+
+    for i in range(n_row):
+        for k in range(s):
+            img_s_arrary.append(img_mat[i][k])
+
+    s_median = np.median(img_s_arrary)
+
+    return 255 - s_median

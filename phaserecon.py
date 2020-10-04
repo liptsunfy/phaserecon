@@ -15,7 +15,7 @@ import sys
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import *
 import matplotlib
-from FunPhaserecon import unpack, reconstraction
+from FunPhaserecon import unpack, reconstraction, img_s_median
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
 
 matplotlib.use("Qt5Agg")  # 声明使用QT5
@@ -25,6 +25,7 @@ from PyQt5.QtGui import QImage, QFont
 
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
+import gc
 
 
 class Ui_MainWindow(object):
@@ -205,7 +206,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "相位重构 v1.0"))
-        MainWindow.setWindowIcon(QtGui.QIcon('MyDIP.ico'))  # 窗口图标
+        MainWindow.setWindowIcon(QtGui.QIcon('image/MyDIP.ico'))  # 窗口图标
 
         # 窗口上方菜单栏
         self.menu.setTitle(_translate("MainWindow", "文件"))
@@ -213,9 +214,9 @@ class Ui_MainWindow(object):
 
         # 分栏标签
         self.leftPart.setTitle(_translate("MatrixWin", "控制面板"))
-        self.leftPart.setFont(QFont("Roman times", 8, QFont.Bold))  # 调整字体属性
+        self.leftPart.setFont(QFont("Roman times", 12, QFont.Bold))  # 调整字体属性
         self.rightPart.setTitle(_translate("MatrixWin", "结果显示"))
-        self.rightPart.setFont(QFont("Roman times", 8, QFont.Bold))  # 调整字体属性
+        self.rightPart.setFont(QFont("Roman times", 12, QFont.Bold))  # 调整字体属性
 
         # 原始图像展示区域
         self.labImage.setText(_translate("MainWindow", "原始图像"))
@@ -256,11 +257,6 @@ class Window(QMainWindow, Ui_MainWindow):
         self.btn3D.clicked.connect(self.tripD_display)  # 解包裹结果3维显示
         self.btn3D_1.clicked.connect(self.tripD_display1)  # 重构结果3维显示
 
-
-    '''
-    软件功能
-    '''
-
     def openFile(self):
         imgName, imgType = QFileDialog.getOpenFileName(self, "打开图片", "", "*.bmp;;All Files(*)")
         oriImg = QtGui.QPixmap(imgName).scaled(self.labImage.width(), self.labImage.height())
@@ -270,15 +266,17 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.labImage.setPixmap(oriImg)  # 显示打开的图像
 
-    # 输入S值
     def inputS(self, event):  # 输入：整数
+        '''
+        输入S值后执行解包裹操作
+        '''
         try:
             inputImg_path
         except:
             self.showMessageBox()  # 警告！
         else:
             # 后面四个数字的作用依次是 初始值 最小值 最大值 步幅
-            value, ok = QInputDialog.getInt(self, "执行重构", "请输入s值\n\n请输入整数(点击ok，即可执行重构):", 37, 0, 10000, 1)
+            value, ok = QInputDialog.getInt(self, "执行重构", "请输入s值\n\n请输入整数(点击ok，即可执行重构):", 100, 0, 1000, 1)
 
             global input_s
             input_s = value  # s值 全局变量传递给重构函数
@@ -291,10 +289,13 @@ class Window(QMainWindow, Ui_MainWindow):
 
     # 重构
     def reConst(self):
-        upResults = unpack(inputImg_path)  # 第一步图像解包裹结果
+        upResults, img_mat = unpack(inputImg_path)  # 第一步图像解包裹结果
 
         global valur_for_display
         valur_for_display = upResults
+
+        global img_matrix
+        img_matrix = img_mat
 
         n_row = upResults.shape[0]
         n_col = upResults.shape[1]
@@ -303,7 +304,11 @@ class Window(QMainWindow, Ui_MainWindow):
         input_for_recon = data.reshape(n_row, n_col)
 
         # 重构结果
-        value_results = reconstraction(input_for_recon, s=input_s, d=4)
+        value_d = img_s_median(input_s, img_matrix, n_row)  # 计算d值
+        del img_matrix
+        gc.collect()  # 清除全局变量img_matrix
+
+        value_results = reconstraction(input_for_recon, s=input_s, d=value_d)  # 重构数值结果
 
         global value_for_3Ddisplay1
         value_for_3Ddisplay1 = value_results
@@ -320,7 +325,6 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.labReconst.setPixmap(reconstImg)  # 显示输出的图像
         self.labReconst.setScaledContents(True)  # 图片自适应label大小
-
 
     def tripD_display(self):
         try:
@@ -386,11 +390,6 @@ class Window(QMainWindow, Ui_MainWindow):
             self.labImage.setText("请重新选择待处理图像")
             self.labReconst.setText("重构结果")
             self.label_sValue.clear()
-
-            # 清除全局变量  inputImg_path，input_s，valur_for_display，value_for_3Ddisplay1，recontResults
-
-
-
 
     # 警告！
     def showMessageBox(self):
