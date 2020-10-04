@@ -173,6 +173,8 @@ class Ui_MainWindow(object):
         ## 菜单栏二级目录
         self.action_openFile = QtWidgets.QAction(MainWindow)  # 文件-打开
         self.action_openFile.setObjectName("action_openFile")
+        self.action_saveFile = QtWidgets.QAction(MainWindow)  # 文件-保存
+        self.action_saveFile.setObjectName("action_saveFile")
         self.action_exit = QtWidgets.QAction(MainWindow)  # 文件-退出
         self.action_exit.setObjectName("action_exit")
 
@@ -185,10 +187,12 @@ class Ui_MainWindow(object):
         self.action_about.setObjectName("action_about")
 
         self.menu_file.addAction(self.action_openFile)
+        self.menu_file.addAction(self.action_saveFile)
         self.menu_file.addSeparator()  # 分割线
         self.menu_file.addAction(self.action_exit)  # 文件 - 退出
 
         self.menu_run.addAction(self.action_phaseRecon)
+        self.menu_run.addSeparator()  # 分割线
         self.menu_run.addAction(self.action_reSet)
 
         self.menu_help.addAction(self.action_about)
@@ -243,23 +247,31 @@ class Ui_MainWindow(object):
         '''
         # 窗口上方菜单栏
         '''
-        self.menu_file.setTitle(_translate("MainWindow", "文件"))
-        self.menu_run.setTitle(_translate("MainWindow", "运行"))
-        self.menu_help.setTitle(_translate("MainWindow", "帮助"))
+        self.menu_file.setTitle(_translate("MainWindow", "文件(&F)"))
+        self.menu_run.setTitle(_translate("MainWindow", "运行(&R)"))
+        self.menu_help.setTitle(_translate("MainWindow", "帮助(&H)"))
 
         ## 二级栏目设置
         self.action_openFile.setText(_translate("MainWindow", "打开..."))
         self.action_openFile.setShortcut("Ctrl+O")
+        self.action_openFile.setIcon(QtGui.QIcon('icon/open.png'))
+        self.action_saveFile.setText(_translate("MainWindow", "保存..."))
+        self.action_saveFile.setShortcut("Ctrl+S")
+        self.action_saveFile.setIcon(QtGui.QIcon('icon/save.png'))
         self.action_exit.setText(_translate("MainWindow", "退出..."))
         self.action_exit.setShortcut("Ctrl+E")
+        self.action_exit.setIcon(QtGui.QIcon('icon/exit.png'))
 
         self.action_phaseRecon.setText(_translate("MainWindow", "执行重构..."))
         self.action_phaseRecon.setShortcut("Ctrl+R")
+        self.action_phaseRecon.setIcon(QtGui.QIcon('icon/run.png'))
         self.action_reSet.setText(_translate("MainWindow", "重置..."))
         self.action_reSet.setShortcut("Ctrl+Shift+R")
+        self.action_reSet.setIcon(QtGui.QIcon('icon/clear.png'))
 
         self.action_about.setText(_translate("MainWindow", "关于..."))
         self.action_about.setShortcut("Ctrl+A")
+        self.action_about.setIcon(QtGui.QIcon('icon/about.png'))
 
         # 分栏标签
         self.leftPart.setTitle(_translate("MatrixWin", "控制面板"))
@@ -288,15 +300,25 @@ class Ui_MainWindow(object):
         self.btn3D_1.setText((_translate("MainWindow", "3维显示")))
 
 
+
 class Window(QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         super(Window, self).__init__(*args, **kwargs)
         self.setupUi(self)
 
-        # 软件下方状态栏
+        '''
+        ## 软件下方状态栏
+        '''
         layout = QVBoxLayout()
         QToolTip.setFont(QFont('宋体', 10))  # ToolTip设置
-        self.statusBar().showMessage('准备就绪！')  # statusBar设置
+        self.statusBar().showMessage('准备就绪...！')  # statusBar设置
+
+        # ## 进度条
+        # self.progressBar = QProgressBar()
+        # self.statusBar().addPermanentWidget(self.progressBar)
+        # self.progressBar.setGeometry(50, 0, 50, 3)
+        # self.progressBar.setRange(0, 50)  # 设置进度条的范围
+        # self.progressBar.setValue(10)
 
         '''
         ## 功能按钮 链接事件
@@ -319,6 +341,7 @@ class Window(QMainWindow, Ui_MainWindow):
         ## manu 点击动作执行
         '''
         self.action_openFile.triggered.connect(self.openFile)
+        self.action_saveFile.triggered.connect(self.saveReconst)
         self.action_about.triggered.connect(self.showMessageAbout)
         self.action_phaseRecon.triggered.connect(self.inputS)
         self.action_reSet.triggered.connect(self.clearAll)
@@ -464,19 +487,19 @@ class Window(QMainWindow, Ui_MainWindow):
 
     # 警告！
     def showMessageBox(self):
-        res_0 = QMessageBox.warning(self, "警告", "错误操作！请先执行上一步骤！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+        res_0 = QMessageBox.warning(self, "警告", "错误操作！请先执行上一步骤！", QMessageBox.Close | QMessageBox.Close)
 
     # 警告！
     def showMessageBox_1(self):
-        res_1 = QMessageBox.warning(self, "警告", "没有可以保存的图片！请按顺序执行！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+        res_1 = QMessageBox.warning(self, "警告", "没有可以保存的图片！请按顺序执行！", QMessageBox.Close | QMessageBox.Close)
 
     # 警告！
     def showMessageBox_2(self):
-        res_2 = QMessageBox.warning(self, "警告", "当前无需重置！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+        res_2 = QMessageBox.warning(self, "警告", "当前无需重置！程序准备完毕！", QMessageBox.Close | QMessageBox.Close)
 
     def showMessageAbout(self):
         about = QMessageBox.information(self, "关于", "合肥工业大学仪器科学与光电工程学院\n\n相位重构\n\n版本：v1.0",
-                                        QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+                                        QMessageBox.Close |QMessageBox.Close)
 
     def center(self):
         # 得到主窗体的框架信息
