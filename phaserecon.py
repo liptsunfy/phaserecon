@@ -206,7 +206,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "相位重构 v1.0"))
-        MainWindow.setWindowIcon(QtGui.QIcon('image/MyDIP.ico'))  # 窗口图标
+        MainWindow.setWindowIcon(QtGui.QIcon('icon/MyDIP.ico'))  # 窗口图标
 
         # 窗口上方菜单栏
         self.menu.setTitle(_translate("MainWindow", "文件"))
@@ -245,17 +245,26 @@ class Window(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         layout = QVBoxLayout()
+        QToolTip.setFont(QFont('宋体', 10))  # ToolTip设置
+
+        self.statusBar().showMessage('准备就绪')  # statusBar设置
 
         '''
         ## 功能按钮 链接事件
         ## “执行解包裹”： 当点击“执行解包裹”按钮时，弹出子窗口，输入S取值，并显示解包裹计算结果
         '''
         self.btnOpenFile.clicked.connect(self.openFile)  # 打开文件
+        self.btnOpenFile.setStatusTip("请选择要处理的图像文件")
         self.btnReconst.clicked.connect(self.inputS)  # 点击开始重构计算
+        self.btnReconst.setStatusTip("点击此按钮将执行重构")
         self.btnSaveResults.clicked.connect(self.saveReconst)  # 保存重构结果
+        self.btnSaveResults.setStatusTip("保存重构结果")
         self.btnClear.clicked.connect(self.clearAll)  # 重置选择文件
+        self.btnClear.setStatusTip("重置界面")
         self.btn3D.clicked.connect(self.tripD_display)  # 解包裹结果3维显示
+        self.btn3D.setStatusTip("显示3维图像")
         self.btn3D_1.clicked.connect(self.tripD_display1)  # 重构结果3维显示
+        self.btn3D_1.setStatusTip("显示3维图像")
 
     def openFile(self):
         imgName, imgType = QFileDialog.getOpenFileName(self, "打开图片", "", "*.bmp;;All Files(*)")
@@ -391,6 +400,8 @@ class Window(QMainWindow, Ui_MainWindow):
             self.labReconst.setText("重构结果")
             self.label_sValue.clear()
 
+            gc.disable()  # 垃圾自动回收
+
     # 警告！
     def showMessageBox(self):
         res_0 = QMessageBox.warning(self, "警告", "错误操作！请先执行上一步骤！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
@@ -401,7 +412,17 @@ class Window(QMainWindow, Ui_MainWindow):
 
     # 警告！
     def showMessageBox_2(self):
-        res_2 = QMessageBox.warning(self, "警告", "当前无需重置！", QMessageBox.Yes | QMessageBox.No,QMessageBox.Yes)
+        res_2 = QMessageBox.warning(self, "警告", "当前无需重置！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+
+    def center(self):
+        # 得到主窗体的框架信息
+        qr = self.frameGeometry()
+        # 得到桌面的中心
+        cp = QDesktopWidget().availableGeometry().center()
+        # 框架的中心与桌面中心对齐
+        qr.moveCenter(cp)
+        # 自身窗体的左上角与框架的左上角对齐
+        self.move(qr.topLeft())
 
 
 if __name__ == "__main__":
