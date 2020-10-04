@@ -17,6 +17,7 @@ from PyQt5.QtWidgets import *
 import matplotlib
 from FunPhaserecon import unpack, reconstraction, img_s_median
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
+from PyQt5.QtCore import QCoreApplication
 
 matplotlib.use("Qt5Agg")  # 声明使用QT5
 import matplotlib.pyplot as plt
@@ -150,16 +151,47 @@ class Ui_MainWindow(object):
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 23))
         self.menubar.setObjectName("menubar")
-        self.menu = QtWidgets.QMenu(self.menubar)
-        self.menu.setObjectName("menu")
-        self.menu_2 = QtWidgets.QMenu(self.menubar)
-        self.menu_2.setObjectName("menu_2")
+
+        '''
+        ## manu栏
+        '''
+        self.menu_file = QtWidgets.QMenu(self.menubar)
+        self.menu_file.setObjectName("menu_file")
+        self.menu_run = QtWidgets.QMenu(self.menubar)
+        self.menu_run.setObjectName("menu_run")
+        self.menu_help = QtWidgets.QMenu(self.menubar)
+        self.menu_help.setObjectName("menu_help")
+
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.menubar.addAction(self.menu.menuAction())
-        self.menubar.addAction(self.menu_2.menuAction())
+        self.menubar.addAction(self.menu_file.menuAction())
+        self.menubar.addAction(self.menu_run.menuAction())
+        self.menubar.addAction(self.menu_help.menuAction())
+
+        ## 菜单栏二级目录
+        self.action_openFile = QtWidgets.QAction(MainWindow)  # 文件-打开
+        self.action_openFile.setObjectName("action_openFile")
+        self.action_exit = QtWidgets.QAction(MainWindow)  # 文件-退出
+        self.action_exit.setObjectName("action_exit")
+
+        self.action_phaseRecon = QtWidgets.QAction(MainWindow)  # 运行- 执行重构
+        self.action_phaseRecon.setObjectName("runPhaseRecon")
+        self.action_reSet = QtWidgets.QAction(MainWindow)  # 运行- 重置界面
+        self.action_reSet.setObjectName("action_reSet")
+
+        self.action_about = QtWidgets.QAction(MainWindow)  # 帮助 - 关于
+        self.action_about.setObjectName("action_about")
+
+        self.menu_file.addAction(self.action_openFile)
+        self.menu_file.addSeparator()  # 分割线
+        self.menu_file.addAction(self.action_exit)  # 文件 - 退出
+
+        self.menu_run.addAction(self.action_phaseRecon)
+        self.menu_run.addAction(self.action_reSet)
+
+        self.menu_help.addAction(self.action_about)
 
         # 文本标签
         self.label_sValue = QtWidgets.QLabel(MainWindow)  # s当前取值
@@ -208,9 +240,26 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "相位重构 v1.0"))
         MainWindow.setWindowIcon(QtGui.QIcon('icon/MyDIP.ico'))  # 窗口图标
 
+        '''
         # 窗口上方菜单栏
-        self.menu.setTitle(_translate("MainWindow", "文件"))
-        self.menu_2.setTitle(_translate("MainWindow", "关于"))
+        '''
+        self.menu_file.setTitle(_translate("MainWindow", "文件"))
+        self.menu_run.setTitle(_translate("MainWindow", "运行"))
+        self.menu_help.setTitle(_translate("MainWindow", "帮助"))
+
+        ## 二级栏目设置
+        self.action_openFile.setText(_translate("MainWindow", "打开..."))
+        self.action_openFile.setShortcut("Ctrl+O")
+        self.action_exit.setText(_translate("MainWindow", "退出..."))
+        self.action_exit.setShortcut("Ctrl+E")
+
+        self.action_phaseRecon.setText(_translate("MainWindow", "执行重构..."))
+        self.action_phaseRecon.setShortcut("Ctrl+R")
+        self.action_reSet.setText(_translate("MainWindow", "重置..."))
+        self.action_reSet.setShortcut("Ctrl+Shift+R")
+
+        self.action_about.setText(_translate("MainWindow", "关于..."))
+        self.action_about.setShortcut("Ctrl+A")
 
         # 分栏标签
         self.leftPart.setTitle(_translate("MatrixWin", "控制面板"))
@@ -244,10 +293,10 @@ class Window(QMainWindow, Ui_MainWindow):
         super(Window, self).__init__(*args, **kwargs)
         self.setupUi(self)
 
+        # 软件下方状态栏
         layout = QVBoxLayout()
         QToolTip.setFont(QFont('宋体', 10))  # ToolTip设置
-
-        self.statusBar().showMessage('准备就绪')  # statusBar设置
+        self.statusBar().showMessage('准备就绪！')  # statusBar设置
 
         '''
         ## 功能按钮 链接事件
@@ -265,6 +314,15 @@ class Window(QMainWindow, Ui_MainWindow):
         self.btn3D.setStatusTip("显示3维图像")
         self.btn3D_1.clicked.connect(self.tripD_display1)  # 重构结果3维显示
         self.btn3D_1.setStatusTip("显示3维图像")
+
+        '''
+        ## manu 点击动作执行
+        '''
+        self.action_openFile.triggered.connect(self.openFile)
+        self.action_about.triggered.connect(self.showMessageAbout)
+        self.action_phaseRecon.triggered.connect(self.inputS)
+        self.action_reSet.triggered.connect(self.clearAll)
+        self.action_exit.triggered.connect(QCoreApplication.instance().quit)  # 关闭程序
 
     def openFile(self):
         imgName, imgType = QFileDialog.getOpenFileName(self, "打开图片", "", "*.bmp;;All Files(*)")
@@ -334,6 +392,8 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.labReconst.setPixmap(reconstImg)  # 显示输出的图像
         self.labReconst.setScaledContents(True)  # 图片自适应label大小
+
+        self.statusBar().showMessage('执行重构......完成！', )  # 执行完成状态栏提示
 
     def tripD_display(self):
         try:
@@ -413,6 +473,10 @@ class Window(QMainWindow, Ui_MainWindow):
     # 警告！
     def showMessageBox_2(self):
         res_2 = QMessageBox.warning(self, "警告", "当前无需重置！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+
+    def showMessageAbout(self):
+        about = QMessageBox.information(self, "关于", "合肥工业大学仪器科学与光电工程学院\n\n相位重构\n\n版本：v1.0",
+                                        QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 
     def center(self):
         # 得到主窗体的框架信息
