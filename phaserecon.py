@@ -33,6 +33,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(970, 520)  # 主界面尺寸
+        MainWindow.setFixedSize(MainWindow.width(), MainWindow.height())  # 禁止调整主窗口大小
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
@@ -159,6 +160,8 @@ class Ui_MainWindow(object):
         self.menu_file.setObjectName("menu_file")
         self.menu_run = QtWidgets.QMenu(self.menubar)
         self.menu_run.setObjectName("menu_run")
+        self.menu_view = QtWidgets.QMenu(self.menubar)
+        self.menu_view.setObjectName("menu_view")
         self.menu_help = QtWidgets.QMenu(self.menubar)
         self.menu_help.setObjectName("menu_help")
 
@@ -168,6 +171,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.menubar.addAction(self.menu_file.menuAction())
         self.menubar.addAction(self.menu_run.menuAction())
+        self.menubar.addAction(self.menu_view.menuAction())
         self.menubar.addAction(self.menu_help.menuAction())
 
         ## 菜单栏二级目录
@@ -249,6 +253,7 @@ class Ui_MainWindow(object):
         '''
         self.menu_file.setTitle(_translate("MainWindow", "文件(&F)"))
         self.menu_run.setTitle(_translate("MainWindow", "运行(&R)"))
+        self.menu_view.setTitle(_translate("MainWindow", "视图(&V)"))
         self.menu_help.setTitle(_translate("MainWindow", "帮助(&H)"))
 
         ## 二级栏目设置
@@ -497,6 +502,7 @@ class Window(QMainWindow, Ui_MainWindow):
     def showMessageBox_2(self):
         res_2 = QMessageBox.warning(self, "警告", "当前无需重置！程序准备完毕！", QMessageBox.Close | QMessageBox.Close)
 
+    # 关于
     def showMessageAbout(self):
         about = QMessageBox.information(self, "关于", "合肥工业大学仪器科学与光电工程学院\n\n相位重构\n\n版本：v1.0",
                                         QMessageBox.Close |QMessageBox.Close)
