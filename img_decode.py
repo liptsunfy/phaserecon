@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# @Time: 2020/10/5 15:55 
+# @Time: 2020/10/5 17:02 
 # @Author: lipengtao
 # Note:
 
@@ -23,7 +23,7 @@ def pic2py(picture_name):
 
 
 if __name__ == '__main__':
-    pics = ["about.png", "clear.png", "editor.png", "exit.png", "MyDIP.png", "open.png", "run.png", "save.png"]
+    pics = ["about.ico", "clear.ico", "editor.ico", "exit.ico", "MyDIP.ico", "open.ico", "run.ico", "save.ico"]
     for i in pics:
         pic2py(i)
     print("ok")
