@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a73836e2-4207-48d7-9354-8e2d2655979d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/img.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/phaserecon.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phaserecon.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/icon/MyDIP.ico" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/phaserecon.py" beforeDir="false" afterPath="$PROJECT_DIR$/phaserecon.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +19,17 @@
       <list>
         <option value="Python Script" />
       </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
     </option>
   </component>
   <component name="Git.Settings">
@@ -33,6 +46,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -62,7 +77,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="phaserecon" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="img" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="phaserecon" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/img.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="phaserecon" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="phaserecon" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -86,7 +123,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.phaserecon" />
+        <item itemvalue="Python.img" />
         <item itemvalue="Python.case" />
       </list>
     </recent_temporary>
@@ -101,6 +138,7 @@
       <updated>1601770917036</updated>
       <workItem from="1601770918076" duration="7306000" />
       <workItem from="1601793430624" duration="7919000" />
+      <workItem from="1601884026655" duration="2557000" />
     </task>
     <task id="LOCAL-00001" summary="Updata for d calculation">
       <created>1601773971327</created>
@@ -123,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601793467184</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="界面优化">
+      <created>1601860043770</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1601860043770</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,36 +181,44 @@
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1761" y="0" key="CommitChangelistDialog2" timestamp="1601793466553">
+    <state x="1761" y="0" key="CommitChangelistDialog2" timestamp="1601860042596">
       <screen x="1366" y="0" width="1920" height="1050" />
     </state>
     <state x="281" y="0" key="CommitChangelistDialog2/0.0.1366.738/1366.0.1920.1050@0.0.1366.738" timestamp="1601774009487" />
-    <state x="1761" y="0" key="CommitChangelistDialog2/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601793466553" />
-    <state width="1877" height="104" key="GridCell.Tab.0.bottom" timestamp="1601859865760">
+    <state x="1761" y="0" key="CommitChangelistDialog2/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601860042596" />
+    <state x="2106" y="266" key="FileChooserDialogImpl" timestamp="1601861421947">
+      <screen x="1366" y="0" width="1920" height="1050" />
+    </state>
+    <state x="2106" y="266" key="FileChooserDialogImpl/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601861421947" />
+    <state width="1877" height="177" key="GridCell.Tab.0.bottom" timestamp="1601886609591">
       <screen x="1366" y="0" width="1920" height="1050" />
     </state>
     <state width="1323" height="111" key="GridCell.Tab.0.bottom/0.0.1366.738/1366.0.1920.1050@0.0.1366.738" timestamp="1601775503640" />
-    <state width="1877" height="104" key="GridCell.Tab.0.bottom/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601859865760" />
-    <state width="1877" height="104" key="GridCell.Tab.0.center" timestamp="1601859865760">
+    <state width="1877" height="177" key="GridCell.Tab.0.bottom/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601886609591" />
+    <state width="1877" height="177" key="GridCell.Tab.0.center" timestamp="1601886609591">
       <screen x="1366" y="0" width="1920" height="1050" />
     </state>
     <state width="1323" height="111" key="GridCell.Tab.0.center/0.0.1366.738/1366.0.1920.1050@0.0.1366.738" timestamp="1601775503640" />
-    <state width="1877" height="104" key="GridCell.Tab.0.center/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601859865760" />
-    <state width="1877" height="104" key="GridCell.Tab.0.left" timestamp="1601859865760">
+    <state width="1877" height="177" key="GridCell.Tab.0.center/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601886609591" />
+    <state width="1877" height="177" key="GridCell.Tab.0.left" timestamp="1601886609591">
       <screen x="1366" y="0" width="1920" height="1050" />
     </state>
     <state width="1323" height="111" key="GridCell.Tab.0.left/0.0.1366.738/1366.0.1920.1050@0.0.1366.738" timestamp="1601775503640" />
-    <state width="1877" height="104" key="GridCell.Tab.0.left/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601859865760" />
-    <state width="1877" height="104" key="GridCell.Tab.0.right" timestamp="1601859865760">
+    <state width="1877" height="177" key="GridCell.Tab.0.left/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601886609591" />
+    <state width="1877" height="177" key="GridCell.Tab.0.right" timestamp="1601886609591">
       <screen x="1366" y="0" width="1920" height="1050" />
     </state>
     <state width="1323" height="111" key="GridCell.Tab.0.right/0.0.1366.738/1366.0.1920.1050@0.0.1366.738" timestamp="1601775503640" />
-    <state width="1877" height="104" key="GridCell.Tab.0.right/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601859865760" />
-    <state x="1753" y="144" key="Vcs.Push.Dialog.v2" timestamp="1601793470361">
+    <state width="1877" height="177" key="GridCell.Tab.0.right/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601886609591" />
+    <state x="1827" y="169" key="SettingsEditor" timestamp="1601884100625">
+      <screen x="1366" y="0" width="1920" height="1050" />
+    </state>
+    <state x="1827" y="169" key="SettingsEditor/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601884100625" />
+    <state x="1753" y="144" key="Vcs.Push.Dialog.v2" timestamp="1601860050246">
       <screen x="1366" y="0" width="1920" height="1050" />
     </state>
     <state x="275" y="101" key="Vcs.Push.Dialog.v2/0.0.1366.738/1366.0.1920.1050@0.0.1366.738" timestamp="1601774045975" />
-    <state x="1753" y="144" key="Vcs.Push.Dialog.v2/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601793470361" />
+    <state x="1753" y="144" key="Vcs.Push.Dialog.v2/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601860050246" />
     <state x="-36" y="7" width="1382" height="826" key="dock-window-1" timestamp="1601796202584">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -176,7 +229,8 @@
     <state x="1989" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1366.738/1366.0.1920.1050@1366.0.1920.1050" timestamp="1601800907329" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/phaserecon$phaserecon.coverage" NAME="phaserecon Coverage Results" MODIFIED="1601859865760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/phaserecon$phaserecon.coverage" NAME="phaserecon Coverage Results" MODIFIED="1601886609591" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/phaserecon$case.coverage" NAME="case Coverage Results" MODIFIED="1601794594085" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/phaserecon$img.coverage" NAME="img Coverage Results" MODIFIED="1601886494340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
