@@ -408,14 +408,18 @@ class Window(QMainWindow, Ui_MainWindow):
             self.showMessageBox()  # 警告！
         else:
             # 后面四个数字的作用依次是 初始值 最小值 最大值 步幅
-            value, ok = QInputDialog.getInt(self, "执行重构", "请输入s值\n\n请输入整数(点击ok，即可执行重构):", 100, 0, 1000, 1)
+            INFORMATION = "<p>请输入s值</p>" \
+                          "<p>请输入整数(点击ok，即可执行重构)</p>"
+            value, ok = QInputDialog.getInt(self, "执行重构", INFORMATION, 100, 0, 1000, 1)
 
             global input_s
             input_s = value  # s值 全局变量传递给重构函数
 
             if ok:
                 self.reConst()
-                self.label_sValue.setText("当前s取值：\n   s = {}".format(input_s))  # 显示当前S取值
+                S_INFO = "<p>当前s取值</p>" \
+                         "<p>s = {}</p>".format(input_s)
+                self.label_sValue.setText(S_INFO)  # 显示当前S取值
                 self.label_sValue.setFont(QFont("Roman times", 8, QFont.Bold))  # 调整字体属性
 
 
@@ -541,8 +545,10 @@ class Window(QMainWindow, Ui_MainWindow):
 
     # 关于
     def showMessageAbout(self):
-        about = QMessageBox.information(self, "关于", "合肥工业大学仪器科学与光电工程学院\n\n相位重构\n\n版本：v1.0",
-                                        QMessageBox.Close |QMessageBox.Close)
+        MESSAGE = "<p><font size=8 color='darkblue'>相位重构</p>" \
+                  "<p>版本： v1.0 Build 2020</p>" \
+                  "<p>© 2020合肥工业大学仪器科学与光电工程学院</p>"
+        about = QMessageBox.information(self, "关于", MESSAGE, QMessageBox.Close | QMessageBox.Close)
 
     def center(self):
         # 得到主窗体的框架信息
