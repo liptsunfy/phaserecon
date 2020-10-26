@@ -221,7 +221,7 @@ class Ui_MainWindow(object):
 
         # 按钮“3维显示”设置
         self.btn3D = QtWidgets.QPushButton(self.rightPart)
-        self.btn3D.setGeometry(QtCore.QRect(200, 320, 110, 32))
+        self.btn3D.setGeometry(QtCore.QRect(200, 310, 110, 32))
         self.btn3D.setObjectName("btn3D")
         self.btn3D.setStyleSheet("QPushButton{"
                                  "border-color: rgb(0, 0, 0);"
@@ -238,20 +238,36 @@ class Ui_MainWindow(object):
 
 
         self.btn3D_1 = QtWidgets.QPushButton(self.rightPart)
-        self.btn3D_1.setGeometry(QtCore.QRect(600, 320, 110, 32))
+        self.btn3D_1.setGeometry(QtCore.QRect(600, 310, 110, 32))
         self.btn3D_1.setObjectName("btn3D_1")
         self.btn3D_1.setStyleSheet("QPushButton{"
                                  "border-color: rgb(0, 0, 0);"
-                                 "\nbackground-color: rgb(211,211,211);"
-                                 "\ncolor: rgb(0, 0, 0);"
-                                 "\nborder-radius: 10px;"
-                                 "\npadding: 8;}"
-                                 "QPushButton:hover{"
-                                 "border-color: rgb(0, 0, 0);"
-                                 "\nbackground-color:rgb(255, 255, 255);"
-                                 "\ncolor:  rgb(123, 139, 111);"
-                                 "\nborder-radius: 10px;"
-                                 "\npadding: 8;}")
+                                   "\nbackground-color: rgb(211,211,211);"
+                                   "\ncolor: rgb(0, 0, 0);"
+                                   "\nborder-radius: 10px;"
+                                   "\npadding: 8;}"
+                                   "QPushButton:hover{"
+                                   "border-color: rgb(0, 0, 0);"
+                                   "\nbackground-color:rgb(255, 255, 255);"
+                                   "\ncolor:  rgb(123, 139, 111);"
+                                   "\nborder-radius: 10px;"
+                                   "\npadding: 8;}")
+
+        self.btn_display = QtWidgets.QPushButton(self.rightPart)
+        self.btn_display.setGeometry(QtCore.QRect(600, 350, 110, 32))
+        self.btn_display.setObjectName("btn_display")
+        self.btn_display.setStyleSheet("QPushButton{"
+                                       "border-color: rgb(0, 0, 0);"
+                                       "\nbackground-color: rgb(211,211,211);"
+                                       "\ncolor: rgb(0, 0, 0);"
+                                       "\nborder-radius: 10px;"
+                                       "\npadding: 8;}"
+                                       "QPushButton:hover{"
+                                       "border-color: rgb(0, 0, 0);"
+                                       "\nbackground-color:rgb(255, 255, 255);"
+                                       "\ncolor:  rgb(123, 139, 111);"
+                                       "\nborder-radius: 10px;"
+                                       "\npadding: 8;}")
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -340,6 +356,7 @@ class Ui_MainWindow(object):
         self.btnSaveResults.setText(_translate("MainWindow", "保存重构结果"))
         self.btn3D.setText((_translate("MainWindow","3维显示")))
         self.btn3D_1.setText((_translate("MainWindow", "3维显示")))
+        self.btn_display.setText((_translate("MainWindow", "结果")))
 
 
 
@@ -378,6 +395,8 @@ class Window(QMainWindow, Ui_MainWindow):
         self.btn3D.setStatusTip("显示3维图像")
         self.btn3D_1.clicked.connect(self.tripD_display1)  # 重构结果3维显示
         self.btn3D_1.setStatusTip("显示3维图像")
+        self.btn_display.clicked.connect(self.results_display1)  # 重构结果显示
+        self.btn_display.setStatusTip("显示结果")
 
         '''
         ## manu 点击动作执行
@@ -520,6 +539,19 @@ class Window(QMainWindow, Ui_MainWindow):
 
             plt.show()
 
+    def results_display1(self):
+        try:
+            value_for_3Ddisplay1
+        except:
+            self.showMessageBox()  # 警告！
+        else:
+            fig = plt.figure()
+            ax = fig.add_subplot(111)
+
+            selected_row = int(value_for_3Ddisplay1.shape[0] / 2)
+            X = value_for_3Ddisplay1[selected_row]
+            ax.plot(X)
+            plt.show()
 
     # 保存重构结果
     def saveReconst(self):

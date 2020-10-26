@@ -94,6 +94,87 @@ def unpack(inputfile):
     return z, a
 
 
+def unpack_1(inputvalue):
+    '''
+    :param inputfilr:  直接输入数值
+    :return: 解包裹数值结果
+    '''
+    n_row = inputvalue.shape[0]
+    n_col = inputvalue.shape[1]
+
+    a = np.asarray(inputvalue)  # 转为矩阵
+
+    x = math.ceil(n_row / 2)  # 向下取整
+    y = math.ceil(n_col / 2)
+
+    p = np.zeros((n_row, n_col))
+    k = np.zeros((n_row, n_col))
+    f = np.zeros((n_row, n_col))
+    z = np.zeros((n_row, n_col))
+    g = np.zeros((n_row, n_col))
+
+    p[x][y] = 0  # 中心点设为0
+
+    h = y + 5
+    if h < (x + 5):
+        h = x + 5
+
+    # 上面
+    for i in range(h):
+        for j in range(y - i + 2, y + i - 1):  # 2*i-2
+            if x - i + 1 >= 0 and n_col >= j >= 0:
+                if k[x - i + 1][j] != 1:
+                    if int(a[x - i + 1][j]) - int(a[x - i + 2][j]) > 192:
+                        p[x - i + 1][j] = p[x - i + 2][j] - 1
+                    elif int(a[x - i + 2][j]) - int(a[x - i + 1][j]) > 192:
+                        p[x - i + 1][j] = p[x - i + 2][j] + 1
+                    else:
+                        p[x - i + 1][j] = p[x - i + 2][j]
+                    f[x - i][j] = 1
+
+        # 下面
+        for j in range((y - i + 2), (y + i - 1)):
+            if (x + i - 1) < n_row and n_col >= j >= 0:
+                if f[x + i - 1][j] != 1:
+                    if int(a[x + i - 1][j]) - int(a[x + i - 2][j]) > 192:
+                        p[x + i - 1][j] = p[x + i - 2][j] - 1
+                    elif int(a[x + i - 2][j]) - int(a[x + i - 1][j]) > 192:
+                        p[x + i - 1][j] = p[x + i - 2][j] + 1
+                    else:
+                        p[x + i - 1][j] = p[x + i - 2][j]
+                    f[x + i - 1][j] = 1
+
+        # 左边
+        for j in range(x - i + 1, x + i):
+            if y - i + 1 >= 0 and n_row > j >= 0:
+                if f[j][y - i + 1] != 1:
+                    if int(a[j][y - i + 1]) - int(a[j][y - i + 2]) > 192:
+                        p[j][y - i + 1] = p[j][y - i + 2] - 1
+                    elif int(a[j][y - i + 2]) - int(a[j][y - i + 1]) > 192:
+                        p[j][y - i + 1] = p[j][y - i + 2] + 1
+                    else:
+                        p[j][y - i + 1] = p[j][y - i + 2]
+                    f[j][y - i + 1] = 1
+
+        # 右边
+        for j in range(x - i + 1, x + i):
+            if y + i - 1 < n_col and n_row > j >= 0:
+                if k[j][y + i - 1] != 1:
+                    if int(a[j][y + i - 1]) - int(a[j][y + i - 2]) > 192:
+                        p[j][y + i - 1] = p[j][y + i - 2] - 1
+                    elif int(a[j][y + i - 2]) - int(a[j][y + i - 1]) > 192:
+                        p[j][y + i - 1] = p[j][y + i - 2] + 1
+                    else:
+                        p[j][y + i - 1] = p[j][y + i - 2]
+                    f[j][y + i - 1] = 1
+
+    for i in range(n_row):
+        for j in range(n_col):
+            z[i][j] = int(a[i][j]) + 225 * p[i][j]
+
+    return z
+
+
 # ****************************
 # 重构函数
 # ****************************
