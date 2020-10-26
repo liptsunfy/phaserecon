@@ -111,7 +111,9 @@ def reconstraction(upresults, s, d):
             if x in range(s):
                 results[y][x] = upresults[y][x]
             if x in range(s, 2 * s):
-                results[y][x] = results[y][x - s] + upresults[y][x] + d
+                results[y][x] = results[y][x - s] + upresults[y][x] - 25
+
+
             if x in range(2 * s, n_col):
                 results[y][x] = 2 * results[y][x - s] - results[y][x - 2 * s] + (upresults[y][x] - upresults[y][x - s])
 
@@ -137,3 +139,9 @@ def img_s_median(s, img_mat, n_row):
     s_median = np.median(img_s_arrary)
 
     return 255 - s_median
+
+
+# 归一化 0-255
+def normalization(x, x_min, x_max):
+    nor_x = (x - x_min) / ((x_max - x_min))
+    return int(nor_x * 255)

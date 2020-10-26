@@ -15,7 +15,7 @@ import sys
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import *
 import matplotlib
-from FunPhaserecon import unpack, reconstraction, img_s_median
+from FunPhaserecon import unpack, reconstraction, img_s_median, normalization
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
 from PyQt5.QtCore import QCoreApplication
 
@@ -449,10 +449,26 @@ class Window(QMainWindow, Ui_MainWindow):
         global value_for_3Ddisplay1
         value_for_3Ddisplay1 = value_results
 
-        value_results = value_results.astype(np.uint8)  # 更改数据类型
+        # value_results = value_results.astype(np.uint8)  # 更改数据类型
+        # 0-255
+        row_max = []  # 每行最大值
+        row_min = []
+
+        for n in range(n_row):
+            row_max.append(max(value_results[n]))
+            row_min.append(min(value_results[n]))
+        value_results_MAX = max(row_max)
+        value_results_MIN = min(row_min)
+
+        nor_results = np.zeros((n_row, n_col))
+        for n in range(n_row):
+            for m in range(n_col):
+                nor_results[n][m] = normalization(value_results[n][m], value_results_MIN, value_results_MAX)
+
+        nor_results = nor_results.astype(np.uint8)  # ！！！
 
         # 将array 转换成QImage
-        im = QImage(value_results.data, value_results.shape[1], value_results.shape[0], value_results.shape[1],
+        im = QImage(nor_results.data, nor_results.shape[1], nor_results.shape[0], nor_results.shape[1],
                     QImage.Format_Indexed8)
         reconstImg = QtGui.QPixmap(im).scaled(n_col, n_row)
 
